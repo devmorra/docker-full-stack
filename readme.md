@@ -1,0 +1,1 @@
+Practice deployment of a simple stack
