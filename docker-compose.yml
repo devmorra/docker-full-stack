@@ -4,7 +4,7 @@ services:
   flaskapi:
     image: flaskapi
     build:
-      context: .
+      context: ./app-layer
       dockerfile: ./Dockerfile
     ports:
       - 5000:5000
@@ -12,5 +12,7 @@ services:
     image: "postgres:latest"
   web:
     build: ./web
-    ports: "8080:80"
+    ports: 
+      - "8080:80"
+
 
