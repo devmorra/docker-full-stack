@@ -8,19 +8,19 @@ terraform {
 }
 
 provider "aws" {
-    access_key = "${var.aws_access_key}"
-    secret_key = "${var.aws_secret_key}"
-    region     = "${var.region}"
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
+  region     = var.region
 }
 
-provider "docker" {
-    host = "http://hub.docker.com"
+
+
+module "network_stack" {
+  source = "./modules/networking"
 }
 
-data "docker_registry_image" "web" {
-    name = "cmorra/fargate-test-web:latest"
-}
-
-output "docker-image" {
-    value = data.docker_registry_image.web.id
+module "fargate" {
+  source          = "./modules/fargate"
+  vpc_id          = module.network_stack.vpc_id
+  service_subnets = [module.network_stack.public_subnet_id]
 }
